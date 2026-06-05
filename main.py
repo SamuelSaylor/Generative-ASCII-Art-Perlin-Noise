@@ -1,5 +1,7 @@
 import random
 import math
+import os
+import time
 
 SET = " .:-=+*#%@"
 WIDTH = 80
@@ -41,12 +43,21 @@ def twodnoise(x,y):
     topright = PERMUTATION_TABLE[PERMUTATION_TABLE[xi+1]+yi+1]
 
     x1 = lerp(gradiant_function(bottomleft,xf,yf), gradiant_function(bottomright,xf-1,yf),fadex)
-    x2 = lerp(gradiant_function(bottomright,xf,yf-1), gradiant_function(topright,xf-1,yf-1),fadex)
+    x2 = lerp(gradiant_function(topleft,xf,yf-1), gradiant_function(topright,xf-1,yf-1),fadex)
 
-def FBM():
-    pass
+    return lerp(x1,x2,fadey)
 
-def terrain_generation(lacunarity, persistence):
+def FBM(x,y,lacunarity = 2.0, persistence = 0.5):
+    result = 0.0
+    amplitude = 1.0
+    frequency = 1.0
+    for i in range(OCTAVE):
+        result+=twodnoise(x*frequency,y*frequency)*amplitude
+        amplitude*=persistence
+        frequency*=lacunarity
+    return result
+
+def terrain_generation(offset = 0.0):
 
     result = 0.0
     '''
@@ -66,7 +77,15 @@ def terrain_generation(lacunarity, persistence):
     for x in range(HEIGHT):
         line = ""
         for y in range(WIDTH):
-            result = noise()
+            result = FBM(x*SCALE,y*SCALE)
+            normalization = (result+1)/2
+            normalization = max(0.0,min(1.0,normalization))
+            line+=SET[int(normalization*len(SET)-1)]
+        print(line)
     
-
-terrain_generation()
+offset = 0.0
+while True:
+    os.system("cls")
+    terrain_generation(offset=offset)
+    offset+=0.5
+    time.sleep(0.05)
