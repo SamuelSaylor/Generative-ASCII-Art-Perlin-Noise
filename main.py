@@ -1,4 +1,5 @@
 import random
+import math
 
 SET = " .:-=+*#%@"
 WIDTH = 80
@@ -25,11 +26,27 @@ def gradiant_function(hash,x,y):
     if ha == 2: return x - y
     if ha == 3: return -x - y
 
+def twodnoise(x,y):
+    xi = math.floor(x) & 255
+    yi = math.floor(y) & 255
+    xf = x - math.floor(x)
+    yf = y - math.floor(y)
+
+    fadex = fade_curve(xf)
+    fadey = fade_curve(yf)
+    
+    bottomleft = PERMUTATION_TABLE[PERMUTATION_TABLE[xi]+yi]
+    bottomright = PERMUTATION_TABLE[PERMUTATION_TABLE[xi+1]+yi]
+    topleft = PERMUTATION_TABLE[PERMUTATION_TABLE[xi]+yi+1]
+    topright = PERMUTATION_TABLE[PERMUTATION_TABLE[xi+1]+yi+1]
+
+    x1 = lerp(gradiant_function(bottomleft,xf,yf), gradiant_function(bottomright,xf-1,yf),fadex)
+    x2 = lerp(gradiant_function(bottomright,xf,yf-1), gradiant_function(topright,xf-1,yf-1),fadex)
+
+def FBM():
+    pass
+
 def terrain_generation(lacunarity, persistence):
-    # loop through every row and column
-    # for each position, sample pnoise2
-    # map the result to a character from RAMP
-    # print each row as a string
 
     result = 0.0
     '''
