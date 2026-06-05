@@ -1,4 +1,3 @@
-import numpy
 import random
 
 SET = " .:-=+*#%@"
@@ -19,8 +18,12 @@ def lerp(a,b,t): return a+t*(b-a)
 #def get_distance_vector(x,y,dx,dy): return [x-dx,y-dy]
 
 #given a corner of the grid cell, how much does that corner "push" the noise value at point (x, y)?
-def gradiant_function(x,y):
-    distance_vector = get_distance_vector(x,y,)
+def gradiant_function(hash,x,y):
+    ha = hash & 3
+    if ha == 0: return x + y
+    if ha == 1: return -x + y
+    if ha == 2: return x - y
+    if ha == 3: return -x - y
 
 def terrain_generation(lacunarity, persistence):
     # loop through every row and column
