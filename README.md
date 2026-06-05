@@ -1,4 +1,7 @@
-<img src="../30projects_logo.svg" width="120"/> <h1>Day 4/30 — Generative ASCII Art (Perlin Noise)</h1>
+<table><tr>
+<td><img src="./30projects_logo.svg" width="360"/></td>
+<td><h1>Day 4/30 — Generative ASCII Art (Perlin Noise)</h1></td>
+</tr></table>
 
 ## About
 A terminal-based generative art engine that renders landscapes as ASCII characters using a from-scratch implementation of Perlin noise — no libraries, just raw math. Numeric noise values are mapped to a character ramp from sparse (` .:-`) to dense (`*#%@`), producing smooth organic terrain that looks different every run.
